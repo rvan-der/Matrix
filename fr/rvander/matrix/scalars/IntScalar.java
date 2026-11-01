@@ -11,6 +11,10 @@ public class IntScalar extends Scalar {
         this.value = value.longValue();
     }
 
+    public IntScalar(Long value) {
+        this.value = value.longValue();
+    }
+
     public IntScalar(long value) {
         this.value = value;
     }
@@ -59,4 +63,7 @@ public class IntScalar extends Scalar {
         return new IntScalar(this.value);
     }
 
+    public String toString() {
+        return Long.toString(this.value);
+    }
 }
