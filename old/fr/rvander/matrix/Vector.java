@@ -20,6 +20,7 @@ public class Vector<K extends Scalar> {
                 "The size doesn't match the input"
             );
         }
+        this.size = size;
         this.vector = new ArrayList<>();
         for (K sc: scalars) {
             this.vector.add((K)sc.clone());

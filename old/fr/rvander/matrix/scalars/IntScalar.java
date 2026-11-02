@@ -1,11 +1,21 @@
 package fr.rvander.matrix.scalars;
 
 
+import java.util.ArrayList;
+
 import fr.rvander.matrix.exceptions.*;
 
 
 public class IntScalar extends Scalar {
     private int value;
+
+    public static ArrayList<IntScalar> makeList(int[] lst) {
+        ArrayList<IntScalar> res = new ArrayList<>();
+        for (int db: lst) {
+            res.add(new IntScalar(db));
+        }
+        return res;
+    }
 
     public IntScalar(Integer value) {
         this.value = value.intValue();

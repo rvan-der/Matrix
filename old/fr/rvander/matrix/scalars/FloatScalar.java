@@ -1,11 +1,21 @@
 package fr.rvander.matrix.scalars;
 
 
+import java.util.ArrayList;
+
 import fr.rvander.matrix.exceptions.*;
 
 
 public class FloatScalar extends Scalar {
     private float value;
+
+    public static ArrayList<FloatScalar> makeList(float[] lst) {
+        ArrayList<FloatScalar> res = new ArrayList<>();
+        for (float db: lst) {
+            res.add(new FloatScalar(db));
+        }
+        return res;
+    }
 
     public FloatScalar(Integer value) {
         this.value = value.floatValue();

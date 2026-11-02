@@ -1,11 +1,21 @@
 package fr.rvander.matrix.scalars;
 
 
+import java.util.ArrayList;
+
 import fr.rvander.matrix.exceptions.*;
 
 
 public class LongScalar extends Scalar {
     private long value;
+
+    public static ArrayList<LongScalar> makeList(long[] lst) {
+        ArrayList<LongScalar> res = new ArrayList<>();
+        for (long db: lst) {
+            res.add(new LongScalar(db));
+        }
+        return res;
+    }
 
     public LongScalar(Integer value) {
         this.value = value.longValue();
