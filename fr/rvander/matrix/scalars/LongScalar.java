@@ -27,20 +27,24 @@ public class LongScalar extends Scalar {
         return this.value;
     }
 
-    public void setValue(Integer value) {
+    public LongScalar setValue(Integer value) {
         this.value = value.longValue();
+        return this;
     }
 
-    public void setValue(int value) {
+    public LongScalar setValue(int value) {
         this.value = (long)value;
+        return this;
     }
 
-    public void setValue(Long value) {
+    public LongScalar setValue(Long value) {
         this.value = value.longValue();
+        return this;
     }
 
-    public void setValue(long value) {
+    public LongScalar setValue(long value) {
         this.value = value;
+        return this;
     }
 
     public Scalar add(Scalar sc) throws Exception {

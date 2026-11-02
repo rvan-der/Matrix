@@ -12,6 +12,7 @@ public class Vector<K extends Scalar> {
     private int size = 0;
     private ArrayList<K> vector = null;
 
+    @SuppressWarnings("unchecked")
     public Vector(int size, ArrayList<K> scalars)
     throws VectorCreationException {
         if (size != scalars.size()) {
@@ -19,7 +20,10 @@ public class Vector<K extends Scalar> {
                 "The size doesn't match the input"
             );
         }
-        this.vector = scalars;
+        this.vector = new ArrayList<>();
+        for (K sc: scalars) {
+            this.vector.add((K)sc.clone());
+        }
     }
 
     public K get(int i) {
@@ -65,14 +69,9 @@ public class Vector<K extends Scalar> {
         return new Vector<K>(this.size, scalars);
     }
 
-    @SuppressWarnings("unchecked")
     public Matrix<K> toMatrix() throws Exception {
-        ArrayList<K> column = new ArrayList<>();
-        for (K scalar: this.vector) {
-            column.add((K)scalar.clone());
-        }
         ArrayList<ArrayList<K>> scalars = new ArrayList<>();
-        scalars.add(column);
+        scalars.add(this.vector);
         return new Matrix<K>(this.size, 1, scalars);
     }
 

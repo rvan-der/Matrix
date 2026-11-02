@@ -44,6 +44,7 @@ public class Matrix<K extends Scalar> {
     private MatrixShape shape = null;
     private ArrayList<ArrayList<K>> matrix = null;
 
+    @SuppressWarnings("unchecked")
     public Matrix(int rows, int columns, ArrayList<ArrayList<K>> scalars)
     throws MatrixCreationException, MatrixShapeException {
         this.shape = new MatrixShape(rows, columns);
@@ -66,7 +67,14 @@ public class Matrix<K extends Scalar> {
                 }
             }
         }
-        this.matrix = scalars;
+        this.matrix = new ArrayList<>();
+        for (int iCol = 0; iCol < columns; iCol++) {
+            ArrayList<K> newCol = new ArrayList<>();
+            for (int iRow = 0; iRow < rows; iRow++) {
+                newCol.add((K)scalars.get(iCol).get(iRow).clone());
+            }
+            this.matrix.add(newCol);
+        }
     }
 
     public K get(int iCol, int iRow) {
@@ -143,22 +151,26 @@ public class Matrix<K extends Scalar> {
         return this.shape.isSquare();
     }
 
-    @SuppressWarnings("unchecked")
     public ArrayList<Vector<K>> toVectorList() throws Exception {
         ArrayList<Vector<K>> vectorList = new ArrayList<>();
         for (ArrayList<K> column: this.matrix) {
-            ArrayList<K> scalars = new ArrayList<>();
-            for (K scalar: column) {
-                scalars.add((K)scalar.clone());
-            }
-            vectorList.add(new Vector<K>(this.shape.rows, scalars));
+            vectorList.add(new Vector<K>(this.rows(), column));
         }
         return vectorList;
     }
 
+    public Vector<K> toVector() throws Exception {
+        if (this.columns() != 1) {
+            throw new ConversionException(
+                "Matrix must have only one column to be converted to Vector"
+            );
+        }
+        return new Vector<K>(this.rows(), this.matrix.get(0));
+    }
+
     public String toString() {
         StringBuilder strBd = new StringBuilder("[");
-        for (int i = 0; i < this.shape.columns; i++) {
+        for (int i = 0; i < this.columns(); i++) {
             if (i > 0) {
                 strBd.append(" ");
             }

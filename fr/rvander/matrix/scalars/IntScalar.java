@@ -19,12 +19,14 @@ public class IntScalar extends Scalar {
         return this.value;
     }
 
-    public void setValue(Integer value) {
+    public IntScalar setValue(Integer value) {
         this.value = value.intValue();
+        return this;
     }
 
-    public void setValue(int value) {
+    public IntScalar setValue(int value) {
         this.value = value;
+        return this;
     }
 
     public Scalar add(Scalar sc) throws Exception {

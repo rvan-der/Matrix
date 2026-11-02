@@ -27,20 +27,24 @@ public class FloatScalar extends Scalar {
         return this.value;
     }
 
-    public void setValue(Integer value) {
+    public FloatScalar setValue(Integer value) {
         this.value = value.floatValue();
+        return this;
     }
 
-    public void setValue(int value) {
+    public FloatScalar setValue(int value) {
         this.value = (float)value;
+        return this;
     }
 
-    public void setValue(Float value) {
+    public FloatScalar setValue(Float value) {
         this.value = value.floatValue();
+        return this;
     }
 
-    public void setValue(float value) {
+    public FloatScalar setValue(float value) {
         this.value = value;
+        return this;
     }
 
     public Scalar add(Scalar sc) throws Exception {

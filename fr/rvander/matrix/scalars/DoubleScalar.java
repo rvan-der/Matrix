@@ -101,7 +101,7 @@ public class DoubleScalar extends Scalar {
     }
 
     public Scalar sub(Scalar sc) throws Exception {
-        if (sc instanceof IntScalar) {
+        if (sc instanceof DoubleScalar) {
             return new DoubleScalar(this.value - ((DoubleScalar)sc).value());
         }
         throw new ScalarSubstractionException(null, this, sc);
