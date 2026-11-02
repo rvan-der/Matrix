@@ -5,33 +5,29 @@ import fr.rvander.matrix.exceptions.*;
 
 
 public class IntScalar extends Scalar {
-    private long value;
+    private int value;
 
     public IntScalar(Integer value) {
-        this.value = value.longValue();
-    }
-
-    public IntScalar(Long value) {
-        this.value = value.longValue();
-    }
-
-    public IntScalar(long value) {
-        this.value = value;
+        this.value = value.intValue();
     }
 
     public IntScalar(int value) {
-        this.value = (long)value;
+        this.value = value;
     }
 
-    public long value() {
+    public int value() {
         return this.value;
     }
 
     public void setValue(Integer value) {
-        this.value = value.longValue();
+        this.value = value.intValue();
     }
 
-    public Scalar sum(Scalar sc) throws Exception {
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public Scalar add(Scalar sc) throws Exception {
         if (sc instanceof IntScalar) {
             return new IntScalar(this.value + ((IntScalar)sc).value());
         }
@@ -47,7 +43,7 @@ public class IntScalar extends Scalar {
 
     public Scalar div(Scalar sc) throws Exception {
         if (sc instanceof IntScalar) {
-            return new IntScalar(this.value / ((IntScalar)sc).value());
+            return new IntScalar((int)(this.value / ((IntScalar)sc).value()));
         }
         throw new ScalarDivisionException(null, this, sc);
     }
@@ -64,6 +60,6 @@ public class IntScalar extends Scalar {
     }
 
     public String toString() {
-        return Long.toString(this.value);
+        return Integer.toString(this.value);
     }
 }

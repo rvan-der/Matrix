@@ -21,7 +21,19 @@ class MatrixShape {
         this.columns = columns;
     }
 
-    protected boolean isSquare() {
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof MatrixShape)) {
+            return false;
+        }
+        MatrixShape shape = (MatrixShape)obj;
+        if (shape.rows == this.rows && shape.columns == this.columns) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isSquare() {
         return this.rows == this.columns ? true : false;
     }
 }
@@ -57,7 +69,75 @@ public class Matrix<K extends Scalar> {
         this.matrix = scalars;
     }
 
+    public K get(int iCol, int iRow) {
+        return this.matrix.get(iCol).get(iRow);
+    }
 
+    @SuppressWarnings("unchecked")
+    public Matrix<K> add(Matrix<K> matrix) throws Exception {
+        if (!this.hasSameShape(matrix)) {
+            throw new MatrixAdditionException(
+                "The Matrices don't have matching shapes"
+            );
+        }
+        ArrayList<ArrayList<K>> scalars = new ArrayList<>();
+        for (int iCol = 0; iCol < this.shape.columns; iCol++) {
+            ArrayList<K> newCol = new ArrayList<>();
+            for (int iRow = 0; iRow < this.shape.rows; iRow++) {
+                newCol.add(
+                    (K)this.get(iCol, iRow).add(matrix.get(iCol, iRow))
+                );
+            }
+            scalars.add(newCol);
+        }
+        return new Matrix<K>(this.shape.rows, this.shape.columns, scalars);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Matrix<K> sub(Matrix<K> matrix) throws Exception {
+        if (!this.hasSameShape(matrix)) {
+            throw new MatrixSubstractionException(
+                "The Matrices don't have matching shapes"
+            );
+        }
+        ArrayList<ArrayList<K>> scalars = new ArrayList<>();
+        for (int iCol = 0; iCol < this.shape.columns; iCol++) {
+            ArrayList<K> newCol = new ArrayList<>();
+            for (int iRow = 0; iRow < this.shape.rows; iRow++) {
+                newCol.add(
+                    (K)this.get(iCol, iRow).sub(matrix.get(iCol, iRow))
+                );
+            }
+            scalars.add(newCol);
+        }
+        return new Matrix<K>(this.shape.rows, this.shape.columns, scalars);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Matrix<K> scl(K scalar) throws Exception {
+        ArrayList<ArrayList<K>> scalars = new ArrayList<>();
+        for (int iCol = 0; iCol < this.shape.columns; iCol++) {
+            ArrayList<K> newCol = new ArrayList<>();
+            for (int iRow = 0; iRow < this.shape.rows; iRow++) {
+                newCol.add(
+                    (K)this.get(iCol, iRow).mul(scalar)
+                );
+            }
+            scalars.add(newCol);
+        }
+        return new Matrix<K>(this.shape.rows, this.shape.columns, scalars);
+    }
+
+    public boolean hasSameShape(Matrix<K> matrix) {
+        if (this.shape.equals(matrix.shape())) {
+            return true;
+        }
+        return false;
+    }
+
+    public MatrixShape shape() {
+        return this.shape;
+    }
 
     public boolean isSquare() {
         return this.shape.isSquare();
@@ -110,20 +190,27 @@ public class Matrix<K extends Scalar> {
 
     public void prettyprint() {
         StringBuilder strBd = new StringBuilder();
-        for (int i = 0; i < this.shape.rows; i++) {
-            if (i > 0) {
-                strBd.append("\n\n");
+        int width = 0;
+        for (ArrayList<K> column: this.matrix) {
+            for (K scalar: column) {
+                int l = scalar.toString().length();
+                if (l > width)
+                    width = l;
             }
+        }
+        for (int i = 0; i < this.shape.rows; i++) {
+            if (i > 0)
+                strBd.append("\n");
             strBd.append("[");
             for (int j = 0; j < this.shape.columns; j++) {
-                if (j > 0) {
+                if (j > 0)
                     strBd.append(" ");
-                }
                 strBd.append(
-                    String.format("%-12s", this.matrix.get(j).get(i))
+                    String.format("%-"+width+"s", this.matrix.get(j).get(i))
                 );
             }
             strBd.append("]");
         }
+        System.out.println(strBd.toString());
     }
 }
